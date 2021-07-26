@@ -30,14 +30,14 @@ app.put('/users', controllers.users.put);
 app.get('/posts', controllers.posts.get);
 app.get('/posts/:id', controllers.posts.getId);
 app.post('/posts', controllers.posts.post);
-app.delete('/posts', controllers.posts.delete);
+app.delete('/posts/:id', controllers.posts.delete);
 
 //menu router
 app.get('/menu', controllers.menu);
 
 //likes router
 app.post('/likes', controllers.likes.post);
-app.delete('/likes', controllers.likes.delete);
+app.delete('/likes/:id', controllers.likes.delete);
 
 app.get('/', (req, res) => {
   res.status(201).send('Welcome to My Subway API Server!');

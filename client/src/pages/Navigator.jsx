@@ -4,9 +4,6 @@ import styled from 'styled-components';
 import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
 import Search from '../components/Search';
-import SignUp from '../components/SignUp';
-
-import SignIn from '../components/SignIn';
 
 // 스타일컴퍼넌트
 const HeaderArea = styled.div`
@@ -48,29 +45,12 @@ const ButtonStyle = styled.button`
 `;
 
 // 네이게이션바 구현 목록
-function Navigator({ changeSideBar, setUserInfo, openLogInIcon, isLogIn, setGetPosts, getPosts }) {
+function Navigator({ changeSideBar, isLogIn, setGetPosts, getPosts, openModal }) {
   const [hide, setHide] = useState(false);
   const [pageY, setPageY] = useState(0);
   const documentRef = useRef(document);
-  const [isModal, setModal] = useState(false);
-  const [isOpenSignUp, SetIsOpenSignUp] = useState(false);
 
   // functions
-
-  const closeModal = () => {
-    setModal(false);
-    SetIsOpenSignUp(false);
-  };
-
-  const openModal = () => {
-    setModal(true);
-  };
-
-  //회원가입 모달폼 오픈
-  const changeForm = () => {
-    SetIsOpenSignUp(!isOpenSignUp);
-    openModal();
-  };
 
   // 스크롤
   const throttle = function (callback, waitTime) {
@@ -117,20 +97,6 @@ function Navigator({ changeSideBar, setUserInfo, openLogInIcon, isLogIn, setGetP
           </ButtonStyle>
         )}
       </HeaderWrap>
-      {isModal ? (
-        isOpenSignUp ? (
-          <SignUp changeForm={changeForm} closeModal={closeModal} openModal={openModal} />
-        ) : (
-          <SignIn
-            isLogIn={isLogIn}
-            openLogInIcon={openLogInIcon}
-            openModal={openModal}
-            setUserInfo={setUserInfo}
-            closeModal={closeModal}
-            changeForm={changeForm}
-          />
-        )
-      ) : null}
     </HeaderArea>
   );
 }

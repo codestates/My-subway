@@ -15,7 +15,7 @@ module.exports = {
     }
   },
   delete: (req, res) => {
-    let post_id = req.body.post_id;
+    let post_id = Number(req.params.id);
     let userInfo = isAuthorized(req);
     //로그인 상태일 때
     if (userInfo) {

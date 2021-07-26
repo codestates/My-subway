@@ -24,10 +24,13 @@ module.exports = {
         JOIN ingredientTypes on ingredientTypes.id = ingredients.type_id
         LEFT JOIN (SELECT post_id, COUNT(*) as likes FROM likes GROUP BY post_id) as like_count on posts.id = like_count.post_id
         WHERE ingredientTypes.name = 'main'`,
-      { type: QueryTypes.SELECT },
+      {
+        type: QueryTypes.SELECT,
+      },
     );
 
     //쿼리 결과 데이터와 함께 response 전송
+    console.log(postInfo);
     res.status(200).json({ data: postInfo, message: 'ok' });
   },
   getId: async (req, res) => {
@@ -43,7 +46,9 @@ module.exports = {
             JOIN ingredients on pi.ingredient_id = ingredients.id 
             JOIN ingredientTypes on ingredientTypes.id = ingredients.type_id 
             WHERE posts.id = ` + id,
-      { type: QueryTypes.SELECT },
+      {
+        type: QueryTypes.SELECT,
+      },
     );
     //쿼리 결과를 api형식에 맞게 가공할 Initial Value
     const responseData = {
@@ -119,11 +124,19 @@ module.exports = {
 
     let likedInfo = 0;
     if (userInfo) {
-      likedInfo = await like.count({ where: { post_id: id, user_id: userInfo.id } });
+      likedInfo = await like.count({
+        where: {
+          post_id: id,
+          user_id: userInfo.id,
+        },
+      });
     }
     responseData.liked = likedInfo;
     //결과 데이터와 함께 response 전송
-    res.status(200).json({ data: responseData, message: 'ok' });
+    res.status(200).json({
+      data: responseData,
+      message: 'ok',
+    });
   },
   post: async (req, res) => {
     let userInfo = isAuthorized(req);
@@ -131,7 +144,16 @@ module.exports = {
     if (userInfo) {
       //request data를 기반으로 post테이블에 레코드 생성
       let postId = await post
-        .create({ user_id: userInfo.id, title: req.body.title, content: req.body.content }, { returning: true })
+        .create(
+          {
+            user_id: userInfo.id,
+            title: req.body.title,
+            content: req.body.content,
+          },
+          {
+            returning: true,
+          },
+        )
         .then((created) => {
           return created.dataValues.id;
         });
@@ -144,18 +166,27 @@ module.exports = {
         };
       });
       //menu에 있는 재료들을 posts_ingredients테이블에 레코드로 추가
-      await posts_ingredient.bulkCreate(ingredientsToCreate, { returning: true }).then((created) => {
-        console.log(created);
+      await posts_ingredient
+        .bulkCreate(ingredientsToCreate, {
+          returning: true,
+        })
+        .then((created) => {
+          console.log(created);
+        });
+      res.status(201).json({
+        message: 'ok',
       });
-      res.status(201).json({ message: 'ok' });
     } else {
       // 로그인 상태가 아니면 포스트 게시 불가
-      res.status(401).json({ message: 'Unauthorized request' });
+      res.status(401).json({
+        message: 'Unauthorized request',
+      });
     }
   },
   delete: async (req, res) => {
-    let id = req.body.post_id;
+    let id = Number(req.params.id);
     let userInfo = isAuthorized(req);
+
     //유저가 로그인 상태일 때
     if (userInfo) {
       //해당 포스트를 조회
