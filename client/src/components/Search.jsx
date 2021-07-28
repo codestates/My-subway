@@ -30,18 +30,18 @@ const Select = styled.select`
   font-family: font-css;
   background-color: white;
 
-  display: none;
+  /* display: none; */
 
-  &.focused {
-    display: block;
-    outline: none;
-    width: 100px;
-    border: 3px solid #128735;
-    border-right: none;
-    border-left: none;
-    border-top: none;
-    border-radius: 0px 0px 0px 0px;
-  }
+  /* &.focused { */
+  display: block;
+  outline: none;
+  width: 100px;
+  border: 3px solid #128735;
+  border-right: none;
+  border-left: none;
+  border-top: none;
+  border-radius: 0px 0px 0px 0px;
+  /* } */
 `;
 const Option = styled.option`
   color: black;
@@ -84,18 +84,18 @@ const SearchArea = styled.input`
   font-weight: bold;
   /* border-bottom: white solid 2px; */
   transition: 0.3s;
-  &.focused {
-    width: 400px;
-    padding-left: 30px;
-    font-family: font-css;
-    font-size: 1.5em;
-    font-weight: bold;
-    transition: 0.3s;
-    /* Stops the input box from inheriting the styling from the inputs on the request form */
-    border: none;
-    border-bottom: 3px solid #128735;
-    outline: none;
-  }
+  /* &.focused { */
+  width: 400px;
+  padding-left: 30px;
+  font-family: font-css;
+  font-size: 1.5em;
+  font-weight: bold;
+  transition: 0.3s;
+  /* Stops the input box from inheriting the styling from the inputs on the request form */
+  border: none;
+  border-bottom: 3px solid #128735;
+  outline: none;
+  /* } */
 `;
 // /* :focus {
 //   width: 400px;
@@ -111,11 +111,6 @@ const SearchArea = styled.input`
 function Search({ getPosts, setGetPosts }) {
   const [keyword, setKeyword] = useState('');
   const [option, setOption] = useState('제목');
-  const [viewSearch, setViewSearch] = useState(false);
-
-  const handleViewSearch = () => {
-    setViewSearch(!viewSearch);
-  };
 
   const handleKeyword = (e) => {
     setKeyword(e.target.value);
@@ -124,44 +119,46 @@ function Search({ getPosts, setGetPosts }) {
     setOption(e.target.value);
   };
   const onSearch = async (e) => {
+    // if (e.keyCode === 13) {
+    let allPosts = await axios.get(`${process.env.REACT_APP_API_URL}posts`).then((data) => data.data.data);
+    let result;
+    if (option === '제목') {
+      result = allPosts.filter((posts) => posts.title.includes(keyword)).sort((a, b) => b.likes - a.likes);
+    }
+    if (option === '메뉴') {
+      result = allPosts.filter((posts) => posts.mainmenu.includes(keyword)).sort((a, b) => b.likes - a.likes);
+    }
+    if (option === '닉네임') {
+      result = allPosts.filter((posts) => posts.username.includes(keyword)).sort((a, b) => b.likes - a.likes);
+    }
+    setGetPosts(result);
+    // }
+  };
+
+  const onSearchEnter = (e) => {
     if (e.keyCode === 13) {
-      let allPosts = await axios.get(`${process.env.REACT_APP_API_URL}posts`).then((data) => data.data.data);
-      let result;
-      if (option === '제목') {
-        result = allPosts.filter((posts) => posts.title.includes(keyword)).sort((a, b) => b.likes - a.likes);
-      }
-      if (option === '메뉴') {
-        result = allPosts.filter((posts) => posts.mainmenu.includes(keyword)).sort((a, b) => b.likes - a.likes);
-      }
-      if (option === '닉네임') {
-        result = allPosts.filter((posts) => posts.username.includes(keyword)).sort((a, b) => b.likes - a.likes);
-      }
-      setGetPosts(result);
+      onSearch(e);
     }
   };
 
   return (
     <FormArea onSubmit={(e) => e.preventDefault()}>
-      <Select onChange={getOption} className={viewSearch && 'focused'}>
+      <Select onChange={getOption}>
         <Option value="제목">제목</Option>
         <Option value="메뉴">메뉴</Option>
         <Option value="닉네임">닉네임</Option>
       </Select>
       <SearchArea
+        id="SearchBox"
         type="text"
         placeholder="Search.."
         name="search"
         value={keyword}
         onChange={handleKeyword}
-        onKeyUp={onSearch}
-        className={viewSearch && 'focused'}
+        onKeyUp={onSearchEnter}
       />
       <ButtonStyle type="submit" onClick={onSearch}>
-        <SearchIcon
-          style={{ color: 'green', fontSize: '50px' }}
-          onClick={handleViewSearch}
-          className={viewSearch && 'active'}
-        />
+        <SearchIcon style={{ color: 'green', fontSize: '50px' }} onClick={onSearch} />
       </ButtonStyle>
     </FormArea>
   );

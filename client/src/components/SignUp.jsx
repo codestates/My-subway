@@ -6,22 +6,23 @@ const url = process.env.REACT_APP_API_URL;
 
 const SignUpArea = styled.div`
   position: fixed;
+  margin: 30px auto;
   left: 0;
   right: 0;
   z-index: 999;
 
-  width: 100%;
+  width: 300px;
   max-width: 400px;
-  height: 400px;
-  margin: -70px auto;
-  padding: 60px 0;
+  height: 300px;
+  /* padding: 60px 0; */
 
   background: white;
   box-shadow: 0 0 15px #333;
+  font-family: font-css;
 
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; */
 `;
 
 const Input = styled.input`
@@ -32,7 +33,7 @@ const Input = styled.input`
 
   width: 85%;
   margin-top: 2px;
-  margin-left: 30px;
+  margin-left: 25px;
   height: 45px;
 
   -webkit-transition: box-shadow 0.3s;
@@ -54,22 +55,29 @@ const Input = styled.input`
 `;
 
 const SignUpBtn = styled.button`
-  margin-top: 30px;
+  margin-top: 15px;
   width: 100%;
   height: auto;
   padding-top: 23px;
   padding-bottom: 23px;
+  border-radius: 0px;
 
   cursor: pointer;
 
-  border: 0;
-  border-top: 1px solid #eee;
-  outline: 0;
+  border: none;
+  /* border-top: 1px solid #eee; */
+  outline: none;
   font-size: 1.2em;
   font-weight: bold;
 
   color: white;
   background: #8609e3;
+  :focus {
+    outline: none;
+  }
+  :hover {
+    color: black;
+  }
 `;
 
 const SignInBtn = styled.button`
@@ -78,30 +86,15 @@ const SignInBtn = styled.button`
   padding-top: 23px;
   padding-bottom: 23px;
   cursor: pointer;
+  border-radius: 0px;
 
   border: 0;
-  border-top: 1px solid #eee;
+  /* border-top: 1px solid #eee; */
   outline: 0;
-
-  font-size: 0.9em;
-  color: #333;
-  background: white;
-`;
-
-const SocialSignInBtn = styled.button`
-  width: 100%;
-  height: auto;
-  padding-top: 23px;
-  padding-bottom: 23px;
-  cursor: pointer;
-  border: 0;
-  border-top: 1px solid #eee;
-  outline: 0;
+  color: white;
   font-size: 1.2em;
   font-weight: bold;
-
-  color: white;
-  background: red;
+  background: #ff2d03;
 `;
 
 const ModalArea = styled.div`
@@ -119,18 +112,17 @@ const Modalback = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.3);
-  display: grid;
   place-items: center;
 `;
 
-const SignUpText = styled.div`
-  margin-bottom: 30px;
-  font-size: 1.2em;
-  font-weight: bold;
-`;
+// const SignUpText = styled.div`
+//   margin-bottom: 30px;
+//   font-size: 1.2em;
+//   font-weight: bold;
+// `;
 
 function SignUp({ changeForm, closeModal, openModal }) {
   const [signUpInfo, setSignUpInfo] = useState({
@@ -216,7 +208,7 @@ function SignUp({ changeForm, closeModal, openModal }) {
   return (
     <ModalArea>
       <SignUpArea>
-        <SignUpText>회원가입</SignUpText>
+        <h1>SIGN UP</h1>
         <div>
           <Input
             type="text"
@@ -247,24 +239,19 @@ function SignUp({ changeForm, closeModal, openModal }) {
             placeholder="비밀번호를 입력해주세요"
           />
         </div>
-        {validateErr}
+        <div>{validateErr}</div>
         <div>
           <div>
-            <SignUpBtn type="submit" onClick={signUpHandle}>
-              Sign Up
-            </SignUpBtn>
+            <SignUpBtn onClick={signUpHandle}>Sign Up</SignUpBtn>
           </div>
           <div>
             <SignInBtn
-              type="button"
+              className="btn btn-login"
               onClick={() => {
                 changeForm();
               }}>
               Already a member?
             </SignInBtn>
-          </div>
-          <div>
-            <SocialSignInBtn type="button">Social LogUp</SocialSignInBtn>
           </div>
         </div>
       </SignUpArea>

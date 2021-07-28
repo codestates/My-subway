@@ -156,7 +156,6 @@ function Carousel({ isLogIn, openModal, userInfo }) {
                 backgroundColor: colorProps[idx],
               }}>
               {/* <span aria-hidden="true" className="carousel-control-next-icon" /> */}
-
               <Image
                 className="d-block w-100"
                 // src={el.img_url}

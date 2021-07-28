@@ -18,7 +18,7 @@ const AlterBoxStyle = styled.div`
   color: white;
   font-size: 1.2em;
   font-weight: bold;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   font-family: font-css;
   font-size: 2rem;
 

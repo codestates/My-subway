@@ -11,6 +11,7 @@ import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import Postpage from './pages/Postpage';
 import PostButton from './components/PostButton';
+import Footer from './components/Footer';
 axios.defaults.withCredentials = true;
 
 const GlobalStyle = createGlobalStyle`
@@ -26,7 +27,6 @@ const GlobalStyle = createGlobalStyle`
 		padding: 0;
 		margin: 0;
     height: 100%;
-    display:flex;
     width:100%;
     background-color: white;
 	}
@@ -129,7 +129,6 @@ function App() {
           <Postpage />
         </Route>
       </Switch>
-
       {sideBarOn ? (
         <Sidebar
           changeSideBar={changeSideBar}
@@ -140,6 +139,8 @@ function App() {
         />
       ) : null}
       <PostButton />
+
+      <Footer />
     </div>
   );
 }
