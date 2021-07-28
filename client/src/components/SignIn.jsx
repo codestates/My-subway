@@ -11,6 +11,7 @@ const ModalArea = styled.div`
   height: 100%;
   text-align: center;
   z-index: 999;
+  font-family: font-css;
 `;
 const Modalback = styled.div`
   z-index: -1;
@@ -30,7 +31,7 @@ const Modalback = styled.div`
 const ModalView = styled.div`
   z-index: 999;
   width: 300px;
-  height: 300px;
+  height: 42vh;
   margin: 0px;
   background: white;
   box-shadow: 0 0 15px #333;
@@ -80,27 +81,37 @@ const SignInBtn = styled.button`
   cursor: pointer;
   border: 0;
   border-top: 1px solid #eee;
+  border-radius: 0px;
   outline: 0;
   font-size: 1.2em;
   font-weight: bold;
   color: white;
   background: #8609e3;
+
+  :focus {
+    outline: none;
+  }
+  :hover {
+    color: black;
+  }
 `;
 
 const SocialSignInBtn = styled.button`
   width: 100%;
-  height: auto;
+  height: 100%;
   padding-top: 23px;
-  padding-bottom: 23px;
+  padding-bottom: 50px;
   cursor: pointer;
   border: 0;
   border-top: 1px solid #eee;
   outline: 0;
   font-size: 1.2em;
   font-weight: bold;
-
+  background-color: #fee518;
   color: white;
-  background: red;
+  background-image: url('../imageFile/kakaoButton.png');
+  background-size: cover;
+  /* object-fit: contain; */
 `;
 
 const SignUpBtn = styled.button`
@@ -209,7 +220,7 @@ function SignIn({ isLogIn, openLogInIcon, openModal, setUserInfo, closeModal, ch
       {isLogIn ? null : (
         <MarginDiv>
           <ModalView>
-            <h1>Sign In</h1>
+            <h1>SIGN IN</h1>
 
             <div>
               <span>이메일</span>
@@ -233,14 +244,12 @@ function SignIn({ isLogIn, openLogInIcon, openModal, setUserInfo, closeModal, ch
               <SignUpBtn onClick={() => changeForm()}>아직 아이디가 없으신가요?</SignUpBtn>
             </div>
             <div>
-              <SignInBtn className="btn btn-login" type="submit" onClick={handleLogin}>
-                Sign In
-              </SignInBtn>
+              <SignInBtn onClick={handleLogin}>Sign In</SignInBtn>
             </div>
             {checkErr ? <AlertBox message={errorMessage} /> : null}
             <div>
-              <SocialSignInBtn className="btn btn-login" type="submit" onClick={socialLoginHandler}>
-                Social LogIn
+              <SocialSignInBtn onClick={socialLoginHandler}>
+                {/* <img src="../imageFile/kakaoButton.png" alt="login" /> */}
               </SocialSignInBtn>
             </div>
           </ModalView>

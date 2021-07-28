@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Feed from '../components/Feed';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -21,7 +21,30 @@ const OrderByButton = styled.span`
   cursor: pointer;
 `;
 
+const NoSearchStyle = styled.div`
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  > div {
+    font-family: font-css;
+    margin-top: 20px;
+    font-size: 1.4rem;
+    > span {
+      color: red;
+    }
+  }
+`;
+
 function FeedContainer({ feeds, isLogIn, openModal, handleSetPosts, userInfo }) {
+  const [keyword, setKeyword] = useState('');
+
+  useEffect(() => {
+    const searchKeyword = document.querySelector('#SearchBox').value;
+    setKeyword(searchKeyword);
+  }, [feeds]);
+
   const orderByLikesHandler = async () => {
     let posts = await axios.get(`${url}posts`);
     posts = posts.data.data;
@@ -42,9 +65,16 @@ function FeedContainer({ feeds, isLogIn, openModal, handleSetPosts, userInfo }) 
           <span> | </span>
           <OrderByButton onClick={orderByCreatedAtHandler}>최신순</OrderByButton>
         </OrderBy>
-        {feeds.map((el) => (
-          <Feed data={el} key={el.id} isLogIn={isLogIn} openModal={openModal} userInfo={userInfo} />
-        ))}
+        {feeds.length === 0 ? (
+          <NoSearchStyle>
+            <img src="../imageFile/noresult.png" alt="" />
+            <div>
+              "<span>{keyword}</span>"에 대한 검색결과가 없습니다.
+            </div>
+          </NoSearchStyle>
+        ) : (
+          feeds.map((el) => <Feed data={el} key={el.id} isLogIn={isLogIn} openModal={openModal} userInfo={userInfo} />)
+        )}
       </Container>
     </>
   );

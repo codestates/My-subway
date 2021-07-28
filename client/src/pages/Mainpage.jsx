@@ -12,6 +12,8 @@ const BodyArea = styled.div`
 `;
 
 function Mainpage({ getPosts, isLogIn, openModal, handleSetPosts, userInfo }) {
+  // document.querySelector("#SearchBox")
+
   return (
     <BodyArea>
       <Carousel isLogIn={isLogIn} openModal={openModal} userInfo={userInfo} />
