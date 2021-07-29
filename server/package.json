@@ -4,10 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon --inspect app.js"
   },
-
- "dependencies": {
+  "dependencies": {
+    "axios": "^0.21.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -15,6 +15,7 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
+    "nodemon": "^2.0.12",
     "sequelize": "^6.3.5",
     "sequelize-cli": "^6.2.0"
   },
