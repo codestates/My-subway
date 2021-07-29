@@ -67,7 +67,9 @@ const ImageStyle = styled.img`
 function Footer() {
   return (
     <FooterStyle>
-      <p style={{ marginLeft: '-30px', marginBottom: '0px', marginTop: '20px' }}>&copy; Copyright 2021 Team SMS</p>
+      <p style={{ marginLeft: '-30px', marginBottom: '0px', marginTop: '20px' }}>
+        <span style={{ fontFamily: 'Sans' }}>&copy;</span> Copyright 2021 Team SMS
+      </p>
       <div>
         <a href="https://github.com/byungmin12" target="_blank">
           <ImageStyle src="../imageFile/김병민.png" alt="" />

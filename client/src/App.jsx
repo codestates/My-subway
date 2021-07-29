@@ -29,6 +29,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
     width:100%;
     background-color: white;
+    font-family: 'font-css';
 	}
   
 `;
